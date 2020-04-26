@@ -18,7 +18,7 @@ using std::string;
 using std::vector;
 
 // Init EPSILON
-input_symbol NFAToDFA::EPSILON = '\0';
+const input_symbol NFAToDFA::EPSILON = '\0';
 
 // Constructor.
 NFAToDFA::NFAToDFA(int n_states, const vector<input_symbol> &input_symbols,

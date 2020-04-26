@@ -27,7 +27,7 @@ using std::vector;
 class NFAToDFA {
  public:
   // Epsilon is taken as constant, set dynamically as the last input symbol
-  static input_symbol EPSILON;
+  const static input_symbol EPSILON;
 
   /**
    Constructor.
