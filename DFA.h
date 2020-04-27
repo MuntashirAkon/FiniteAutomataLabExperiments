@@ -29,12 +29,27 @@ class DFA {
   /**
    Constructor.
    @param n_states Total states
-   @param n_input_symbols Total input symbols
+   @param input_symbols Total input symbols
    @param start_state Start state
    @param accepting_states Accepting states
    */
   DFA(int n_states, const vector<input_symbol> &input_symbols,
       state start_state, const vector<state> &accepting_states);
+
+  /**
+   Evaluate the given string.
+   @param str String evaluate
+   @param print_states Whether to output states to the standard output
+   @return True on accepted, false on rejected
+   */
+  bool evaluate(const string &str, bool print_states = false);
+
+  /**
+   Output transision table to the standard output, useful for debugging.
+
+   Start state has a `->` and accepting states have `*` beside them.
+   */
+  void print_transition_table();
 
   /**
    Insert data into transition table.
@@ -45,21 +60,6 @@ class DFA {
   void set_state(state q, input_symbol e, state s) {
     transition_table[q][get_index_by_input_symbol(e)] = s;
   }
-
-  /**
-   Output transision table to the standard output, useful for debugging.
-
-   Start state has a `->` and accepting states have `*` beside them.
-   */
-  void print_transition_table();
-
-  /**
-   Evaluate the given string.
-   @param str String evaluate
-   @param print_states Whether to output states to the standard output
-   @return True on accepted, false on rejected
-   */
-  bool evaluate(const string &str, bool print_states = false);
 
   /**
    Transition function.
@@ -73,26 +73,39 @@ class DFA {
   }
 
  private:
-  // Total states
-  const int n_states;
-
-  // Total input symbols
-  const int n_input_symbols;
-
-  // Transition table
-  vector< vector< state > > transition_table;
-
-  // Start state
-  const state start_state;
-
   // Accepting states
   const vector< state > accepting_states;
+
+  // Current state for DFA::evaluate()
+  state current_state;
 
   // Input symbols
   const vector<input_symbol> input_symbols;
 
-  // Current state for DFA::evaluate()
-  state current_state;
+  // Total input symbols
+  const int n_input_symbols;
+
+  // Total states
+  const int n_states;
+
+  // Start state
+  const state start_state;
+
+  // Transition table
+  vector< vector< state > > transition_table;
+
+  /**
+   Get current state.
+   @return Current state
+   */
+  state get_current_state() { return current_state; }
+
+  /**
+   Get index by input symbol.
+   @param e Input symbol
+   @return Index of input_symbols array
+   */
+  int get_index_by_input_symbol(input_symbol e);
 
   /**
    Find if the current state is an accepting state.
@@ -108,22 +121,9 @@ class DFA {
   bool is_accepting_state(state q);
 
   /**
-   Get current state.
-   @return Current state
-   */
-  state get_current_state() { return current_state; }
-
-  /**
    Reset current state, i.e. set current state to start state.
    */
   void reset_current_state() { current_state = start_state; }
-
-  /**
-   Get index by input symbol.
-   @param e Input symbol
-   @return Index of input_symbols array
-   */
-  int get_index_by_input_symbol(input_symbol e);
 };
 
 #endif  // DFA_H_

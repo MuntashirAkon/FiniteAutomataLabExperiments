@@ -26,8 +26,8 @@ using std::vector;
  */
 class NFAToDFA {
  public:
-  // Epsilon is taken as constant, set dynamically as the last input symbol
-  const static input_symbol EPSILON;
+  // Epsilon is taken as constant
+  static const input_symbol EPSILON;
 
   /**
    Constructor.
@@ -130,11 +130,11 @@ class NFAToDFA {
   int get_index_by_input_symbol(input_symbol e);
 
   /**
-   Whether a set of states (DFA state) has at least one end state.
+   Whether a set of states (DFA state) has at least one accepting state.
    @param states Set of states (DFA state)
-   @return True if it has at least one end state, false otherwise
+   @return True if it has at least one accepting state, false otherwise
    */
-  bool has_end_state(const vector<state> &states);
+  bool has_accepting_state(const vector<state> &states);
 
   /**
    Find if the given NFA state is an accepting state.

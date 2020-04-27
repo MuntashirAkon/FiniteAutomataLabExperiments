@@ -30,12 +30,16 @@ DFA::DFA(int n_states, const vector<input_symbol> &input_symbols,
   }
 }
 
-// Find if the given state is an accepting state.
-bool DFA::is_accepting_state(state q) {
-  int n = accepting_states.size();
-  while (n--)
-    if (q == accepting_states[n]) return true;
-  return false;
+// Evaluate the given string.
+bool DFA::evaluate(const string &str, bool print_states) {
+  reset_current_state();
+  if (print_states) cout << "Transitions: ";
+  for (int i = 0; i < str.length(); ++i) {
+    if (print_states) cout << " -> q" << get_current_state();
+    tf(get_current_state(), str[i]);
+  }
+  if (print_states) cout << " -> q" << get_current_state() << endl;
+  return is_accepting_state();
 }
 
 // Get index by input symbol.
@@ -44,6 +48,14 @@ int DFA::get_index_by_input_symbol(input_symbol e) {
   while (n--)
     if (e == input_symbols[n]) return n;
   return -1;
+}
+
+// Find if the given state is an accepting state.
+bool DFA::is_accepting_state(state q) {
+  int n = accepting_states.size();
+  while (n--)
+    if (q == accepting_states[n]) return true;
+  return false;
 }
 
 // Output transision table to the standard output, useful for debugging.
@@ -65,16 +77,4 @@ void DFA::print_transition_table() {
     cout << " |\n";
   }
   cout << endl;
-}
-
-// Evaluate the given string.
-bool DFA::evaluate(const string &str, bool print_states) {
-  reset_current_state();
-  if (print_states) cout << "Transitions: ";
-  for (int i = 0; i < str.length(); ++i) {
-    if (print_states) cout << " -> q" << get_current_state();
-    tf(get_current_state(), str[i]);
-  }
-  if (print_states) cout << " -> q" << get_current_state() << endl;
-  return is_accepting_state();
 }

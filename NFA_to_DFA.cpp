@@ -56,7 +56,7 @@ int NFAToDFA::get_index_by_input_symbol(input_symbol e) {
 }
 
 // Whether a set of states (DFA state) has at least one end state.
-bool NFAToDFA::has_end_state(const vector<state> &states) {
+bool NFAToDFA::has_accepting_state(const vector<state> &states) {
   for (int i = 0; i < states.size(); ++i) {
     if (is_accepting_state(states[i])) return true;
   }
@@ -84,7 +84,7 @@ void NFAToDFA::print_DFA_transition_table() {
   vector<state> tmp_state;
   for (int j = 0; j < visited_states.size(); ++j) {
     cout << (start_state == visited_states[j] ? "-> " : "   ")
-         << (has_end_state(visited_states[j]) ? "* ": "  ")
+         << (has_accepting_state(visited_states[j]) ? "* ": "  ")
          << static_cast<char>('A' + j);
     for (int i = 0; i < dfa_n_input_symbols; ++i) {
         cout << " | " << states_to_state(
